@@ -13,9 +13,7 @@ const PaginationPokedex = () => {
     }
     const selectPageHandler = evt => {
         evt.preventDefault()
-        setCurrentPage(evt.target.value)
-
-        
+        setCurrentPage(parseInt(evt.target.value))
     }
 
     
