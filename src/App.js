@@ -11,7 +11,9 @@ function App() {
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const [notFound, setNotFound] = useState();
-  const [names, setNames] = useState([])
+  const [names, setNames] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('')
 
   const itemsPerPage = 24;
   let nameSearch = [];
@@ -27,6 +29,7 @@ function App() {
 
   const fetchPokemon = useCallback(async () => {
     try {
+      setLoading(true);
       const dataTotal = await ClassPokemon.fetchPokemonList();
       const names = await dataTotal.map((pokemon) => {return pokemon.name});
       setNames(names);   
@@ -49,6 +52,7 @@ function App() {
           return results;
         }
       });
+      setLoading(false);
       setPokemon(resultsFilter);
     } catch (error) {
       console.log("App fetch pokemon erro:", error);
@@ -64,18 +68,16 @@ function App() {
     if (data === '') {
       return fetchPokemon();
     }
-    console.log(names);
     // eslint-disable-next-line array-callback-return
     nameSearch = names.filter((name) => {
       if(name.indexOf(data) === 0){
         return name;
       }})
     setNotFound(false);
-    console.log('nameSearch', nameSearch);
     const results = await nameSearch.map(async (name) => await ClassPokemon.fetchPokemonInfo(name))
     const result = await Promise.all(results);
-    console.log('result',result)
-    if (!result) {
+    console.log('result', result)
+    if (result.length === 0) {
       setNotFound(true);
     } else {
       setPage(0);
@@ -89,6 +91,7 @@ function App() {
     <div>
       <PageContext.Provider
         value={{
+          load: loading,
           currentPage: page,
           setCurrentPage: setPage,
           totalPages: totalPage,
@@ -98,11 +101,13 @@ function App() {
       >
         <Navigation />
         <SearchContext.Provider value={{
+          search: search,
+          setSearch: setSearch,
           searchFunction: SearchPokemon
         }}>
           <SearchArea />
         </SearchContext.Provider>
-        {(notFound) ? 'Não encontrado' : <AreaCard pokemon={pokemon} page={page} />}
+        {(notFound) ? 'Não encontrado' : <AreaCard pokemon={pokemon} page={page} loading={loading}/>}
       </PageContext.Provider>
     </div>
   );

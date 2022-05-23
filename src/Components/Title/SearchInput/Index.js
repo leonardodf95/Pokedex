@@ -1,19 +1,15 @@
 import { InputSearch, SearchButton } from "./style"
 import {SearchOutlined} from '@ant-design/icons'
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import SearchContext from "../../../Contexts/SearchContext"
 
 const SearchBar = () => {
-    const [search, setSearch] = useState('')
-    const { searchFunction } = useContext(SearchContext)
+    const { searchFunction, search, setSearch } = useContext(SearchContext)
     
 
-    const searchPokemoHandler = evt => {
-        // evt.preventDefault();
-        setSearch(evt.target.value)
-        if(evt.target.value.lenght === 0){
+    const searchPokemonHandler = (search) => {
+        if(search.lenght === 0){
             searchFunction(undefined)
-            console.log('search',search)
         }
         console.log('search',search)
         searchFunction(search)
@@ -22,10 +18,12 @@ const SearchBar = () => {
     const searchOnButton = () => {
         searchFunction(search)
     }
-    
+    useEffect(()=>{searchPokemonHandler(search)}, [search])
     return (
         <>
-        <InputSearch placeholder="   Buscar Pokemon" value={search} onChange={searchPokemoHandler}/>
+        <InputSearch placeholder="   Buscar Pokemon" type='search'  value={search} onChange={e => {
+            setSearch(e.target.value);
+        }}/>
         <SearchButton onClick={searchOnButton}><SearchOutlined /></SearchButton>
         </>
     )
