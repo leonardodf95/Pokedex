@@ -60,3 +60,9 @@ export const LoadingAnimation = styled.div`
     animation: ${rotate} 1.2s linear infinite;
   }
 `;
+export const AreaLoading = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+height: 50vh;
+`
