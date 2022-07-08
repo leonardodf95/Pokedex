@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 
 
-export const Card = styled.div`
+export const Card = styled.button`
     display: flex;
     border-radius: 10px;
     border: none;

@@ -14,7 +14,7 @@ const AreaCard = ({ pokemon }) => {
       ) : (
         <Area>
         {pokemon.map((pokemon) => (
-          <PokemonCard key={pokemon.id} pokemon={pokemon} />
+          <PokemonCard key={pokemon.id} title='Pokemon-card' pokemon={pokemon} />
         ))}
         </Area>
       )}

@@ -68,7 +68,7 @@ const PokemonCard = ( { pokemon }) => {
     const color = setColorCard();
     
     return (
-        <Card color={color} >
+        <Card color={color} name='Pokemon-card'>
             <PokemonPhoto alt={pokemon.name} src={pokemon.sprites.front_default}/>
             <PokemonInfo pokemon={pokemon}/>
         </Card>

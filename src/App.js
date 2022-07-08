@@ -61,10 +61,12 @@ function App() {
 
   useEffect(() => {
     fetchPokemon();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   const SearchPokemon = async (pokemon) => {
     const data = await pokemon.toLowerCase()
+    setLoading(true)
     if (data === '') {
       return fetchPokemon();
     }
@@ -80,6 +82,7 @@ function App() {
     if (result.length === 0) {
       setNotFound(true);
     } else {
+      setLoading(false)
       setPage(0);
       setTotalPage(1);
       setPokemon(result);
